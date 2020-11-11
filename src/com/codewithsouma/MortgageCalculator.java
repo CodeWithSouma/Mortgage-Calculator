@@ -3,7 +3,7 @@ package com.codewithsouma;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
-public class MotgageCalculator {
+public class MortgageCalculator {
     final static byte MONTHS_IN_YEAR = 12;
     final static byte PERCENT = 100;
 
