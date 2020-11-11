@@ -1,43 +1,32 @@
 package com.codewithsouma;
 
 import java.text.NumberFormat;
-import java.util.Currency;
 import java.util.Scanner;
 
 public class MotgageCalculator {
+    final static byte MONTHS_IN_YEAR = 12;
+    final static byte PERCENT = 100;
+
     public static void main(String[] args) {
         int principal = (int) readNumber("Principal: ", 1000, 1_000_000);
         float annualInterestRate = (float) readNumber("Annual Interest Rate: ", 1, 30);
         byte years = (byte) readNumber("Period(Years): ", 1, 30);
 
-        //Calculate mortgage
         double mortgage = calculateMortgage(principal, annualInterestRate, years);
-        System.out.println("\nMORTGAGE");
+        String formattedMortgage = NumberFormat.getCurrencyInstance().format(mortgage);
+        System.out.println();
+        System.out.println("MORTGAGE");
         System.out.println("--------");
-        System.out.println("Monthly Payments: " + NumberFormat.getCurrencyInstance().format(mortgage));
+        System.out.println("Monthly Payments: " + formattedMortgage);
 
-        //displaying payment schedule
-        displayPaymentSchedule(principal, annualInterestRate, years);
-    }
-
-    public static void displayPaymentSchedule(int principal, float annualInterestRate, byte years) {
-        final byte MONTHS_IN_YEAR = 12;
-        final byte PERCENT = 100;
-        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
-        float monthlyInterestRate = annualInterestRate / (MONTHS_IN_YEAR * PERCENT);
-        double balance = 0;
-
-        System.out.println("\nPAYMENT SCHEDULE");
+        System.out.println();
+        System.out.println("PAYMENT SCHEDULE");
         System.out.println("----------------");
-        for (short paymentNo = 1; paymentNo <= numberOfPayments; paymentNo++) {
-            balance = (principal * (Math.pow((1 + monthlyInterestRate), numberOfPayments)
-                    - Math.pow((1 + monthlyInterestRate), paymentNo))) /
-                    (Math.pow((1 + monthlyInterestRate), numberOfPayments) - 1);
-
+        for (short month = 1; month <= years * MONTHS_IN_YEAR; month++) {
+            double balance = calculateBalance(principal, annualInterestRate, years, month);
             String formattedBalance = NumberFormat.getCurrencyInstance().format(balance);
             System.out.println(formattedBalance);
         }
-
     }
 
     public static double readNumber(String prompt, double min, double max) {
@@ -57,8 +46,6 @@ public class MotgageCalculator {
             int principal,
             float annualInterestRate,
             byte years) {
-        final byte MONTHS_IN_YEAR = 12;
-        final byte PERCENT = 100;
 
         float monthlyInterestRate = annualInterestRate / (MONTHS_IN_YEAR * PERCENT);
         short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
@@ -69,4 +56,22 @@ public class MotgageCalculator {
 
         return mortgage;
     }
+
+    public static double calculateBalance(
+            int principal,
+            float annualInterestRate,
+            byte years,
+            short noOfPaymentsMade) {
+
+        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
+        float monthlyInterestRate = annualInterestRate / (MONTHS_IN_YEAR * PERCENT);
+        double balance = 0;
+
+        balance = (principal * (Math.pow(1 + monthlyInterestRate, numberOfPayments)
+                - Math.pow(1 + monthlyInterestRate, noOfPaymentsMade))) /
+                (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+
+        return balance;
+    }
+
 }
