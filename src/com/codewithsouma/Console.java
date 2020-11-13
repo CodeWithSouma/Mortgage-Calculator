@@ -5,9 +5,10 @@ import java.util.Scanner;
 public class Console {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static double readNumber (String prompt){
+    public static double readNumber(String prompt) {
         return scanner.nextDouble();
     }
+
     public static double readNumber(String prompt, double min, double max) {
         double value;
         while (true) {
