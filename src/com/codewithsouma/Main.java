@@ -1,7 +1,5 @@
 package com.codewithsouma;
 
-import java.text.NumberFormat;
-
 public class Main {
     final static byte MONTHS_IN_YEAR = 12;
     final static byte PERCENT = 100;
@@ -11,28 +9,8 @@ public class Main {
         float annualInterestRate = (float) Console.readNumber("Annual Interest Rate: ", 1, 30);
         byte years = (byte) Console.readNumber("Period(Years): ", 1, 30);
 
-        printMortgage(principal, annualInterestRate, years);
-        printPaymentSchedule(principal, annualInterestRate, years);
-    }
-
-    private static void printMortgage(int principal, float annualInterestRate, byte years) {
-        double mortgage = calculateMortgage(principal, annualInterestRate, years);
-        String formattedMortgage = NumberFormat.getCurrencyInstance().format(mortgage);
-        System.out.println();
-        System.out.println("MORTGAGE");
-        System.out.println("--------");
-        System.out.println("Monthly Payments: " + formattedMortgage);
-    }
-
-    public static void printPaymentSchedule(int principal, float annualInterestRate, byte years) {
-        System.out.println();
-        System.out.println("PAYMENT SCHEDULE");
-        System.out.println("----------------");
-        for (short month = 1; month <= years * MONTHS_IN_YEAR; month++) {
-            double balance = calculateBalance(principal, annualInterestRate, years, month);
-            String formattedBalance = NumberFormat.getCurrencyInstance().format(balance);
-            System.out.println(formattedBalance);
-        }
+        MortgageReport.printMortgage(principal, annualInterestRate, years);
+        MortgageReport.printPaymentSchedule(principal, annualInterestRate, years);
     }
 
     public static double calculateMortgage(
