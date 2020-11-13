@@ -1,8 +1,8 @@
 package com.codewithsouma;
 
 public class MortgageCalculator {
-    public final static byte MONTHS_IN_YEAR = 12;
-    public final static byte PERCENT = 100;
+    private final static byte MONTHS_IN_YEAR = 12;
+    private final static byte PERCENT = 100;
 
     private int principal;
     private float annualInterestRate;
@@ -37,6 +37,14 @@ public class MortgageCalculator {
         return balance;
     }
 
+    public double[] getRemainingBalances() {
+        var balances = new double[getNumberOfPayments()];
+        for (short month = 1; month <= balances.length; month++)
+            balances[month - 1] = calculateBalance(month);
+
+        return balances;
+    }
+
     private short getNumberOfPayments() {
         return (short) (years * MONTHS_IN_YEAR);
     }
@@ -45,7 +53,4 @@ public class MortgageCalculator {
         return annualInterestRate / (MONTHS_IN_YEAR * PERCENT);
     }
 
-    public short getYears() {
-        return years;
-    }
 }
