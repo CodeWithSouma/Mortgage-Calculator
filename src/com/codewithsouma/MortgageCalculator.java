@@ -1,6 +1,8 @@
 package com.codewithsouma;
 
 public class MortgageCalculator {
+    public final static byte MONTHS_IN_YEAR = 12;
+    public final static byte PERCENT = 100;
     private int principal;
     private float annualInterestRate;
     private byte years;
@@ -12,8 +14,8 @@ public class MortgageCalculator {
     }
 
     public double calculateMortgage() {
-        float monthlyInterestRate = annualInterestRate / (Main.MONTHS_IN_YEAR * Main.PERCENT);
-        short numberOfPayments = (short) (years * Main.MONTHS_IN_YEAR);
+        float monthlyInterestRate = annualInterestRate / (MONTHS_IN_YEAR * PERCENT);
+        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
 
         double mortgage = principal *
                 ((monthlyInterestRate * Math.pow((monthlyInterestRate + 1), numberOfPayments))
@@ -23,8 +25,8 @@ public class MortgageCalculator {
     }
 
     public double calculateBalance(short noOfPaymentsMade) {
-        short numberOfPayments = (short) (years * Main.MONTHS_IN_YEAR);
-        float monthlyInterestRate = annualInterestRate / (Main.MONTHS_IN_YEAR * Main.PERCENT);
+        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
+        float monthlyInterestRate = annualInterestRate / (MONTHS_IN_YEAR * PERCENT);
         double balance = 0;
 
         balance = (principal * (Math.pow(1 + monthlyInterestRate, numberOfPayments)
